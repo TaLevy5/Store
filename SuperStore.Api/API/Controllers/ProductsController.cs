@@ -31,7 +31,7 @@ namespace API.Controllers
             [FromQuery] string? sortBy = null,
             [FromQuery] string? sortDir = null,
             [FromQuery] decimal? minPrice = null,
-            [Fromquery] decimal? maxPrice = null,
+            [FromQuery] decimal? maxPrice = null,
             [FromQuery] string? search = null)
             {
                 if (page <=0) page = 1;
@@ -59,7 +59,7 @@ namespace API.Controllers
                 return NoContent();
             }
 
-            [HttpPatch("id:int")]
+            [HttpPatch("{id:int}")]
             public async Task<IActionResult> Patch(int id, [FromBody] PatchProductDto dto)
             {
                 var patched = await _service.PatchAsync(id, dto);
@@ -68,7 +68,7 @@ namespace API.Controllers
                 return NoContent();
             }
 
-            [HttpDelete("id:int")]
+            [HttpDelete("{id:int}")]
             public async Task<IActionResult> Delete(int id)
             {
                 var deleted = await _service.DeleteAsync(id);
