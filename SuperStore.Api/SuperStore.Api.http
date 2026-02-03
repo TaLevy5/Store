@@ -1,0 +1,6 @@
+@SuperStore.Api_HostAddress = http://localhost:5293
+
+GET {{SuperStore.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
