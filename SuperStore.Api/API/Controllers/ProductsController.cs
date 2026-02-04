@@ -8,9 +8,9 @@ namespace API.Controllers
     [Route("api/v1/products")]
     public class ProductsController : ControllerBase 
     {
-        private readonly IproductService _service;
+        private readonly IProductService _service;
 
-        public ProductsController(IproductService service) 
+        public ProductsController(IProductService service) 
         {
             _service = service;
         }
@@ -38,7 +38,7 @@ namespace API.Controllers
                 if (pageSize <= 0) pageSize = 20;
 
                 var result = await _service.GetListAsync(page, pageSize, sortBy, sortDir, minPrice, maxPrice, search);
-                return ok(result);
+                return Ok(result);
             }
 
 
