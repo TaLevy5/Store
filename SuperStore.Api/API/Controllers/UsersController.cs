@@ -36,8 +36,6 @@ namespace API.Controllers
                 if (pageSize <=0) pageSize = 20;
 
                 var users = await _service.GetListAsync(page, pageSize, sortBy, sortDir, search);
-
-                if (users is null) return NotFound();
                 return Ok(users);
             }
 
@@ -58,13 +56,20 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetById), new {id = created.Id}, created);
            }
 
-           [HttpPut("{id:int}")]
-           public async Task<IActionResult> Patch(int id, PatchUserDto dto)
+           [HttpPatch("{id:int}")]
+           public async Task<IActionResult> Patch(int id, [FromBody] PatchUserDto dto)
            {
             var patched = await _service.PatchAsync(id, dto);
             if (!patched) return NotFound();
             return NoContent();
+           }
 
+           [HttpDelete("{id:int}")]
+           public async Task<IActionResult> Delete(int id)
+           {
+            var deleted = await _service.DeleteAsync(id);
+            if(!deleted) return NotFound();
+            return NoContent();
            }
 
             
