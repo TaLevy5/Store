@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Application.DTOs.Products;
+using SuperStore.Application.DTOs.Products;
 using SuperStore.Domain.Entities;
 using SuperStore.Infrastructure.Data;
 
@@ -26,7 +26,7 @@ namespace SuperStore.Application.Services.Products
         public async Task<IReadOnlyList<ProductDto>> GetListAsync(
             int page,
             int pageSize,
-            string? soryBy,
+            string? sortBy,
             string? sortDir,
             decimal? minPrice,
             decimal? maxPrice,
@@ -35,7 +35,7 @@ namespace SuperStore.Application.Services.Products
                 if (page <= 0) page = 1;
                 if (pageSize <= 0) pageSize = 20;
 
-                IQueryable<Product> query = _db.AsNoTracking();
+                IQueryable<Product> query = _db.Products.AsNoTracking();
 
                 if(!string.IsNullOrWhiteSpace(search))
                 {
@@ -45,13 +45,13 @@ namespace SuperStore.Application.Services.Products
                     p.Name.Contains(term));
                 }
 
-                if(minPrice.hasValue)
+                if(minPrice.HasValue)
                 {
                     query = query.Where(p => p.Price >= minPrice);
                 }
-                if(maxPrice.hasValue)
+                if(maxPrice.HasValue)
                 {
-                    quer = query.Where(p => p.Price <= maxPrice);
+                    query = query.Where(p => p.Price <= maxPrice);
                 }
 
                 query = ApplySorting(query, sortBy, sortDir);
@@ -89,7 +89,7 @@ namespace SuperStore.Application.Services.Products
             product.Name = dto.Name;
             product.Description = dto.Description;
             product.Price = dto.Price;
-            prodcut.StockQuantity = dto.StockQuantity;
+            product.StockQuantity = dto.StockQuantity;
 
             await _db.SaveChangesAsync();
             return true;
@@ -111,23 +111,23 @@ namespace SuperStore.Application.Services.Products
             }
             if(dto.Price.HasValue)
             {
-                product.Price = dto.Price;
+                product.Price = dto.Price.Value;
             }
             if(dto.StockQuantity.HasValue)
             {
-                product.StockQuantity = dto.StockQuantity;
+                product.StockQuantity = dto.StockQuantity.Value;
             }
 
             await _db.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> Delete(int id) 
+        public async Task<bool> DeleteAsync(int id) 
         {
             var product = await _db.Products.FirstOrDefaultAsync(p => p.Id == id);
             if (product is null) return false;
 
-            await _db.Products.Remove(product);
+            _db.Products.Remove(product);
             await _db.SaveChangesAsync();
             return true;
         }
@@ -147,6 +147,18 @@ namespace SuperStore.Application.Services.Products
                 "stockquantity" => descending ? query.OrderByDescending(p => p.StockQuantity) : query.OrderBy(p => p.StockQuantity),
                 "createdat" => descending ? query.OrderByDescending(p => p.CreatedAt) : query.OrderBy(p => p.CreatedAt),
                 _ => descending ? query.OrderByDescending(p => p.CreatedAt) : query.OrderBy(p => p.CreatedAt)
+            };
+        }
+
+        private static ProductDto ToDto(Product p)
+        {
+            return new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity,
+                CreatedAt = p.CreatedAt
             };
         }
         

@@ -1,6 +1,6 @@
 using SuperStore.Application.DTOs.Users;
 
-namespace Application.Services.Users
+namespace SuperStore.Application.Services.Users
 {
     public interface IUserService
     {
