@@ -1,6 +1,0 @@
-bin/
-obj/
-.vs/
-appsettings.Development.json
-.env
-node_modules/

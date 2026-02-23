@@ -23,7 +23,7 @@ namespace API.Controllers
             if (result is null) return NotFound();
             return Ok(result);
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<ProductDto>>> GetList(
             [FromQuery] int page = 1,

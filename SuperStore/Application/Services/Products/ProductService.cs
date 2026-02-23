@@ -71,7 +71,7 @@ namespace SuperStore.Application.Services.Products
             var product = new Product
             {
                 Name = dto.Name,
-                Description = dto. Description,
+                Description = dto.Description,
                 Price = dto.Price,
                 StockQuantity = dto.StockQuantity
             };
