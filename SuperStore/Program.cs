@@ -19,7 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 builder.Services.AddScoped<IProductService, ProductService>();
-// builder.Services.AddScoped<IUserService, UserService>(); - should make it later
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 builder.Services.AddHealthChecks()
