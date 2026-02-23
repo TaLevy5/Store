@@ -24,7 +24,7 @@ services:
       - postgres
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: ${CONNECTION_STRING}
+      ConnectionStrings__DefaultConnection: ${CONNECTION_STRING_DOCKER}
 
 volumes:
   postgres_data:

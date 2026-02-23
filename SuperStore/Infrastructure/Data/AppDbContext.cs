@@ -14,6 +14,7 @@ namespace SuperStore.Infrastructure.Data
         // Tables
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<ProductReview> ProductReviews { get; set;} = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
